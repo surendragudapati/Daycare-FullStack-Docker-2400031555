@@ -1,0 +1,57 @@
+services:
+
+  postgresdb:
+    image: postgres:16-alpine
+    container_name: postgres-db
+
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: exam_2400031555
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+    networks:
+      - springboot-postgres-net
+
+  backend:
+    image: surendragudapati/docker-backend-2400031555:latest
+
+    container_name: docker-springboot
+
+    ports:
+      - "8081:8081"
+
+    depends_on:
+      - postgresdb
+
+    restart: on-failure
+
+    networks:
+      - springboot-postgres-net
+
+  frontend:
+    image: surendragudapati/docker-frontend-2400031555:latest
+
+    container_name: docker-react
+
+    ports:
+      - "3000:80"
+
+    depends_on:
+      - backend
+
+    restart: on-failure
+
+    networks:
+      - springboot-postgres-net
+
+volumes:
+  postgres_data:
+
+networks:
+  springboot-postgres-net:
