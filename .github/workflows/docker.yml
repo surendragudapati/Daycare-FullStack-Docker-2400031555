@@ -32,7 +32,7 @@ jobs:
       - name: Build Frontend
         uses: docker/build-push-action@v5
         with:
-          context: ./frontend
-          file: ./frontend/Dockerfile
+          context: ./frontend/frontend
+          file: ./frontend/frontend/Dockerfile
           push: true
           tags: surendragudapati/docker-frontend-2400031555:latest
